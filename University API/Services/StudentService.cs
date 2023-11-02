@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -52,6 +54,21 @@ namespace University_API.Services
                 return result;
             }
         }
-       
+        public Student GetStudentWithYear(int one, int two)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                DynamicParameters parameter = new DynamicParameters();
+                parameter.Add("one", one);
+                parameter.Add("two", two);
+                var student = connection.QueryFirst<Student>("GetStudentWithYear", parameter, commandType: CommandType.StoredProcedure);
+
+                return student;
+            }
+        }
+
+
+
+
     }
 }
